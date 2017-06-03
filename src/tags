@@ -1,0 +1,181 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Black	drivers/vga.h	/^    	    Black      = 0,$/;"	e	enum:vga::Color
+Blue	drivers/vga.h	/^    		Blue       = 1,$/;"	e	enum:vga::Color
+Brown	drivers/vga.h	/^    		Brown      = 6,$/;"	e	enum:vga::Color
+CAN_USE_HEAP	arch/x86_64/bootparam.h	27;"	d
+Color	drivers/vga.h	/^	enum Color $/;"	g	namespace:vga
+Cyan	drivers/vga.h	/^    		Cyan       = 3,$/;"	e	enum:vga::Color
+DarkGray	drivers/vga.h	/^    		DarkGray   = 8,$/;"	e	enum:vga::Color
+E820_MAX_ENTRIES_ZEROPAGE	arch/x86_64/bootparam.h	115;"	d
+ERANOS_FMT_H	utils/fmt.h	2;"	d
+ERANOS_KERNEL	drivers/vga.h	2;"	d
+ERANOS_TYPES_H	utils/types.h	2;"	d
+Green	drivers/vga.h	/^    		Green      = 2,$/;"	e	enum:vga::Color
+KASLR_FLAG	arch/x86_64/bootparam.h	24;"	d
+KEEP_SEGMENTS	arch/x86_64/bootparam.h	26;"	d
+LOADED_HIGH	arch/x86_64/bootparam.h	23;"	d
+LightBlue	drivers/vga.h	/^    		LightBlue  = 9,$/;"	e	enum:vga::Color
+LightCyan	drivers/vga.h	/^    		LightCyan  = 11,$/;"	e	enum:vga::Color
+LightGray	drivers/vga.h	/^    		LightGray  = 7,$/;"	e	enum:vga::Color
+LightGreen	drivers/vga.h	/^    		LightGreen = 10,$/;"	e	enum:vga::Color
+LightRed	drivers/vga.h	/^    		LightRed   = 12,$/;"	e	enum:vga::Color
+Magenta	drivers/vga.h	/^    		Magenta    = 5,$/;"	e	enum:vga::Color
+Pink	drivers/vga.h	/^    		Pink       = 13,$/;"	e	enum:vga::Color
+QUIET_FLAG	arch/x86_64/bootparam.h	25;"	d
+RAMDISK_IMAGE_START_MASK	arch/x86_64/bootparam.h	18;"	d
+RAMDISK_LOAD_FLAG	arch/x86_64/bootparam.h	20;"	d
+RAMDISK_PROMPT_FLAG	arch/x86_64/bootparam.h	19;"	d
+Red	drivers/vga.h	/^    		Red        = 4,$/;"	e	enum:vga::Color
+SETUP_APPLE_PROPERTIES	arch/x86_64/bootparam.h	15;"	d
+SETUP_DTB	arch/x86_64/bootparam.h	12;"	d
+SETUP_E820_EXT	arch/x86_64/bootparam.h	11;"	d
+SETUP_EFI	arch/x86_64/bootparam.h	14;"	d
+SETUP_NONE	arch/x86_64/bootparam.h	10;"	d
+SETUP_PCI	arch/x86_64/bootparam.h	13;"	d
+White	drivers/vga.h	/^    		White      = 15,$/;"	e	enum:vga::Color
+XLF_CAN_BE_LOADED_ABOVE_4G	arch/x86_64/bootparam.h	31;"	d
+XLF_EFI_HANDOVER_32	arch/x86_64/bootparam.h	32;"	d
+XLF_EFI_HANDOVER_64	arch/x86_64/bootparam.h	33;"	d
+XLF_EFI_KEXEC	arch/x86_64/bootparam.h	34;"	d
+XLF_KERNEL_64	arch/x86_64/bootparam.h	30;"	d
+Yellow	drivers/vga.h	/^    		Yellow     = 14,$/;"	e	enum:vga::Color
+_ASM_X86_BOOTPARAM_H	arch/x86_64/bootparam.h	2;"	d
+__EXPORTED_HEADERS__	utils/types.h	4;"	d
+__u16	arch/x86_64/bootparam.h	/^typedef  uint16_t  __u16;$/;"	t
+__u32	arch/x86_64/bootparam.h	/^typedef  uint32_t  __u32;$/;"	t
+__u64	arch/x86_64/bootparam.h	/^typedef  uint64_t  __u64;$/;"	t
+__u8	arch/x86_64/bootparam.h	/^typedef  uint8_t  __u8;$/;"	t
+addr	arch/x86_64/bootparam.h	/^    __u64 addr;$/;"	m	struct:boot_e820_entry
+bits	arch/x86_64/boot.asm	/^bits 32$/;"	l
+bits	arch/x86_64/long_mode_init.asm	/^bits 64$/;"	l
+boot_e820_entry	arch/x86_64/bootparam.h	/^struct boot_e820_entry {$/;"	s
+boot_flag	arch/x86_64/bootparam.h	/^    __u16	boot_flag;$/;"	m	struct:setup_header
+bootsect_kludge	arch/x86_64/bootparam.h	/^    __u32	bootsect_kludge;$/;"	m	struct:setup_header
+check_cpuid	arch/x86_64/boot.asm	/^check_cpuid:$/;"	l
+check_long_mode	arch/x86_64/boot.asm	/^check_long_mode:$/;"	l
+check_multiboot	arch/x86_64/boot.asm	/^check_multiboot:$/;"	l
+cif_handler	arch/x86_64/bootparam.h	/^    __u32 cif_handler;	\/* callback into OFW *\/$/;"	m	struct:olpc_ofw_header
+clear_row	drivers/vga.h	/^    	static void clear_row(size_t row)$/;"	f	namespace:vga
+clear_screen	drivers/vga.h	/^    	static void clear_screen()$/;"	f	namespace:vga
+cmd_line_ptr	arch/x86_64/bootparam.h	/^    __u32	cmd_line_ptr;$/;"	m	struct:setup_header
+cmdline_size	arch/x86_64/bootparam.h	/^    __u32	cmdline_size;$/;"	m	struct:setup_header
+code32_start	arch/x86_64/bootparam.h	/^    __u32	code32_start;$/;"	m	struct:setup_header
+copy_arg	utils/fmt.h	/^    size_t copy_arg(char* buf, T val, const char* fmt, size_t len)$/;"	f	namespace:fmt
+copy_arg	utils/fmt.h	/^    size_t copy_arg(char* buf, int val, const char* fmt, size_t len)$/;"	f	namespace:fmt
+copy_arg	utils/fmt.h	/^    size_t copy_arg(char* buf, uint16_t val, const char* fmt, size_t len)$/;"	f	namespace:fmt
+copy_arg	utils/fmt.h	/^    size_t copy_arg(char* buf, uint32_t val, const char* fmt, size_t len)$/;"	f	namespace:fmt
+copy_dec_arg	utils/fmt.h	/^    size_t copy_dec_arg(char* buf, T val)$/;"	f	namespace:fmt
+data	arch/x86_64/bootparam.h	/^    __u8 data[0];$/;"	m	struct:setup_data
+efi_info	arch/x86_64/bootparam.h	/^struct efi_info {$/;"	s
+efi_loader_signature	arch/x86_64/bootparam.h	/^    __u32 efi_loader_signature;$/;"	m	struct:efi_info
+efi_memdesc_size	arch/x86_64/bootparam.h	/^    __u32 efi_memdesc_size;$/;"	m	struct:efi_info
+efi_memdesc_version	arch/x86_64/bootparam.h	/^    __u32 efi_memdesc_version;$/;"	m	struct:efi_info
+efi_memmap	arch/x86_64/bootparam.h	/^    __u32 efi_memmap;$/;"	m	struct:efi_info
+efi_memmap_hi	arch/x86_64/bootparam.h	/^    __u32 efi_memmap_hi;$/;"	m	struct:efi_info
+efi_memmap_size	arch/x86_64/bootparam.h	/^    __u32 efi_memmap_size;$/;"	m	struct:efi_info
+efi_systab	arch/x86_64/bootparam.h	/^    __u32 efi_systab;$/;"	m	struct:efi_info
+efi_systab_hi	arch/x86_64/bootparam.h	/^    __u32 efi_systab_hi;$/;"	m	struct:efi_info
+enable_paging	arch/x86_64/boot.asm	/^enable_paging:$/;"	l
+error	arch/x86_64/boot.asm	/^error:$/;"	l
+ext_loader_type	arch/x86_64/bootparam.h	/^    __u8	ext_loader_type;$/;"	m	struct:setup_header
+ext_loader_ver	arch/x86_64/bootparam.h	/^    __u8	ext_loader_ver;$/;"	m	struct:setup_header
+extern	arch/x86_64/boot.asm	/^extern long_mode_start$/;"	l
+extern	arch/x86_64/long_mode_init.asm	/^extern main$/;"	l
+find_next_format	utils/fmt.h	/^    void find_next_format(const char* fmt, int& start, int& end) {$/;"	f	namespace:fmt
+fmt	utils/fmt.h	/^namespace fmt$/;"	n
+fmt_dec	utils/fmt.h	/^    inline bool fmt_dec(const char* fmt, int begin, int& start, int& end) {$/;"	f	namespace:fmt
+fmt_hex	utils/fmt.h	/^    inline bool fmt_hex(const char* fmt, int begin, int& start, int& end) {$/;"	f	namespace:fmt
+fmt_str	utils/fmt.h	/^    inline bool fmt_str(const char* fmt, int begin, int& start, int& end) {$/;"	f	namespace:fmt
+format	utils/fmt.h	/^    static inline void format(char* buf, const char* fmt)$/;"	f	namespace:fmt
+format	utils/fmt.h	/^    static inline void format(char* buf, const char* fmt, A arg_a, N... arg_n)$/;"	f	namespace:fmt
+gdt64	arch/x86_64/boot.asm	/^gdt64:$/;"	l
+global	arch/x86_64/boot.asm	/^global start$/;"	l
+global	arch/x86_64/long_mode_init.asm	/^global long_mode_start$/;"	l
+handover_offset	arch/x86_64/bootparam.h	/^    __u32	handover_offset;$/;"	m	struct:setup_header
+hardware_subarch	arch/x86_64/bootparam.h	/^    __u32	hardware_subarch;$/;"	m	struct:setup_header
+hardware_subarch_data	arch/x86_64/bootparam.h	/^    __u64	hardware_subarch_data;$/;"	m	struct:setup_header
+header	arch/x86_64/bootparam.h	/^    __u32	header;$/;"	m	struct:setup_header
+header_end	arch/x86_64/multiboot_header.asm	/^header_end:$/;"	l
+header_start	arch/x86_64/multiboot_header.asm	/^header_start:$/;"	l
+heap_end_ptr	arch/x86_64/bootparam.h	/^    __u16	heap_end_ptr;$/;"	m	struct:setup_header
+init_buffer	drivers/vga.h	/^    	static void init_buffer()$/;"	f	namespace:vga
+init_size	arch/x86_64/bootparam.h	/^    __u32	init_size;$/;"	m	struct:setup_header
+initrd_addr_max	arch/x86_64/bootparam.h	/^    __u32	initrd_addr_max;$/;"	m	struct:setup_header
+irq_desc_table	arch/x86_64/bootparam.h	/^    __u32 irq_desc_table;$/;"	m	struct:olpc_ofw_header
+jump	arch/x86_64/bootparam.h	/^    __u16	jump;$/;"	m	struct:setup_header
+kernel_alignment	arch/x86_64/bootparam.h	/^    __u32	kernel_alignment;$/;"	m	struct:setup_header
+kernel_version	arch/x86_64/bootparam.h	/^    __u16	kernel_version;$/;"	m	struct:setup_header
+last_line	drivers/vga.h	/^	static constexpr size_t last_line = m_width - 1;$/;"	m	namespace:vga
+len	arch/x86_64/bootparam.h	/^    __u32 len;$/;"	m	struct:setup_data
+length	arch/x86_64/bootparam.h	/^    __u16 length;$/;"	m	struct:sys_desc_table
+loadflags	arch/x86_64/bootparam.h	/^    __u8	loadflags;$/;"	m	struct:setup_header
+long_mode_start	arch/x86_64/long_mode_init.asm	/^long_mode_start:$/;"	l
+m_blank	drivers/vga.h	/^	static constexpr char m_blank = ' ';	$/;"	m	namespace:vga
+m_buffer	drivers/vga.h	/^	static uint16_t* m_buffer = (uint16_t*)0xB8000;$/;"	m	namespace:vga
+m_col	drivers/vga.h	/^    	static size_t m_col;$/;"	m	namespace:vga
+m_color	drivers/vga.h	/^    	static uint8_t m_color;$/;"	m	namespace:vga
+m_height	drivers/vga.h	/^	static constexpr size_t m_height = 25;$/;"	m	namespace:vga
+m_row	drivers/vga.h	/^    	static size_t m_row;$/;"	m	namespace:vga
+m_width	drivers/vga.h	/^	static constexpr size_t m_width = 80;$/;"	m	namespace:vga
+main	arch/x86_64/main.cpp	/^int main(setup_header* mbh)$/;"	f
+mem_copy	utils/fmt.h	/^    void mem_copy(char* dst, const char* src) {$/;"	f	namespace:fmt
+mem_copy	utils/fmt.h	/^    void mem_copy(char* dst, const char* src, size_t len) {$/;"	f	namespace:fmt
+min_alignment	arch/x86_64/bootparam.h	/^    __u8	min_alignment;$/;"	m	struct:setup_header
+new_line	drivers/vga.h	/^    	static inline void new_line()$/;"	f	namespace:vga
+next	arch/x86_64/bootparam.h	/^    __u64 next;$/;"	m	struct:setup_data
+ofw_magic	arch/x86_64/bootparam.h	/^    __u32 ofw_magic;	\/* OFW signature *\/$/;"	m	struct:olpc_ofw_header
+ofw_version	arch/x86_64/bootparam.h	/^    __u32 ofw_version;$/;"	m	struct:olpc_ofw_header
+olpc_ofw_header	arch/x86_64/bootparam.h	/^struct olpc_ofw_header {$/;"	s
+p2_table	arch/x86_64/boot.asm	/^p2_table:$/;"	l
+p3_table	arch/x86_64/boot.asm	/^p3_table:$/;"	l
+p4_table	arch/x86_64/boot.asm	/^p4_table:$/;"	l
+payload_length	arch/x86_64/bootparam.h	/^    __u32	payload_length;$/;"	m	struct:setup_header
+payload_offset	arch/x86_64/bootparam.h	/^    __u32	payload_offset;$/;"	m	struct:setup_header
+pref_address	arch/x86_64/bootparam.h	/^    __u64	pref_address;$/;"	m	struct:setup_header
+print	drivers/vga.h	8;"	d
+ram_size	arch/x86_64/bootparam.h	/^    __u16	ram_size;$/;"	m	struct:setup_header
+ramdisk_image	arch/x86_64/bootparam.h	/^    __u32	ramdisk_image;$/;"	m	struct:setup_header
+ramdisk_size	arch/x86_64/bootparam.h	/^    __u32	ramdisk_size;$/;"	m	struct:setup_header
+read_char	drivers/vga.h	/^    	static inline char read_char(size_t row, size_t col)$/;"	f	namespace:vga
+realmode_swtch	arch/x86_64/bootparam.h	/^    __u32	realmode_swtch;$/;"	m	struct:setup_header
+relocatable_kernel	arch/x86_64/bootparam.h	/^    __u8	relocatable_kernel;$/;"	m	struct:setup_header
+root_dev	arch/x86_64/bootparam.h	/^    __u16	root_dev;$/;"	m	struct:setup_header
+root_flags	arch/x86_64/bootparam.h	/^    __u16	root_flags;$/;"	m	struct:setup_header
+section	arch/x86_64/boot.asm	/^section .bss$/;"	l
+section	arch/x86_64/boot.asm	/^section .rodata$/;"	l
+section	arch/x86_64/boot.asm	/^section .text$/;"	l
+section	arch/x86_64/long_mode_init.asm	/^section .text$/;"	l
+section	arch/x86_64/multiboot_header.asm	/^section .multiboot_header$/;"	l
+set_color	drivers/vga.h	/^    	static inline void set_color(enum Color fg, enum Color bg)$/;"	f	namespace:vga
+set_up_page_tables	arch/x86_64/boot.asm	/^set_up_page_tables:$/;"	l
+setup_data	arch/x86_64/bootparam.h	/^    __u64	setup_data;$/;"	m	struct:setup_header
+setup_data	arch/x86_64/bootparam.h	/^struct setup_data {$/;"	s
+setup_header	arch/x86_64/bootparam.h	/^struct setup_header {$/;"	s
+setup_move_size	arch/x86_64/bootparam.h	/^    __u16	setup_move_size;$/;"	m	struct:setup_header
+setup_sects	arch/x86_64/bootparam.h	/^    __u8	setup_sects;$/;"	m	struct:setup_header
+shift_line	drivers/vga.h	/^    	static void shift_line()$/;"	f	namespace:vga
+size	arch/x86_64/bootparam.h	/^    __u64 size;$/;"	m	struct:boot_e820_entry
+stack_bottom	arch/x86_64/boot.asm	/^stack_bottom:$/;"	l
+stack_top	arch/x86_64/boot.asm	/^stack_top:$/;"	l
+start	arch/x86_64/boot.asm	/^start:$/;"	l
+start_sys_seg	arch/x86_64/bootparam.h	/^    __u16	start_sys_seg;$/;"	m	struct:setup_header
+strlen	drivers/vga.h	/^    	size_t strlen(const char* str) $/;"	f	namespace:vga
+sys_desc_table	arch/x86_64/bootparam.h	/^struct sys_desc_table {$/;"	s
+syssize	arch/x86_64/bootparam.h	/^    __u32	syssize;$/;"	m	struct:setup_header
+table	arch/x86_64/bootparam.h	/^    __u8  table[14];$/;"	m	struct:sys_desc_table
+type	arch/x86_64/bootparam.h	/^    __u32 type;$/;"	m	struct:boot_e820_entry
+type	arch/x86_64/bootparam.h	/^    __u32 type;$/;"	m	struct:setup_data
+type_of_loader	arch/x86_64/bootparam.h	/^    __u8	type_of_loader;$/;"	m	struct:setup_header
+version	arch/x86_64/bootparam.h	/^    __u16	version;$/;"	m	struct:setup_header
+vga	drivers/vga.h	/^namespace vga$/;"	n
+vga_entry	drivers/vga.h	/^    	static inline uint16_t vga_entry(unsigned char uc, uint8_t color) $/;"	f	namespace:vga
+vid_mode	arch/x86_64/bootparam.h	/^    __u16	vid_mode;$/;"	m	struct:setup_header
+write	drivers/vga.h	/^    	static inline void write(const char* str)$/;"	f	namespace:vga
+write_char	drivers/vga.h	/^    	static inline void write_char(size_t row, size_t col, char c)$/;"	f	namespace:vga
+write_str	drivers/vga.h	/^    	static void write_str(const char* str, size_t len)$/;"	f	namespace:vga
+xloadflags	arch/x86_64/bootparam.h	/^    __u16	xloadflags;$/;"	m	struct:setup_header
