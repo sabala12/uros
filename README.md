@@ -1,2 +1,2 @@
 # uros
-experimental os
+Experimental OS development project.
