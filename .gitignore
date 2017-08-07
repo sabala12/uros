@@ -1,5 +1,5 @@
 build
 target
-.idea/
-.cmake/
+.idea
+.cmake
 .travis.yml
