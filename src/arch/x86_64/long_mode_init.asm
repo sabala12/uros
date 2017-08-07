@@ -1,5 +1,5 @@
 global long_mode_start
-extern main
+extern main64
 
 section .text
 bits 64
@@ -12,9 +12,7 @@ long_mode_start:
     mov fs, ax
     mov gs, ax
 
-    ; push multiboot_header address to main
-    ; pop rbx
-
-    call main
+    mov edi, ebx
+    call main64
 
     hlt

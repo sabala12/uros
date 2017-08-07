@@ -6,7 +6,9 @@ FUNCTION(LOAD_PROFILE ISA)
         SET  (ISA_ASM_FILES "${ISA_ASM_FILES}" PARENT_SCOPE)
     endif(CMAKE_ASM_NASM_COMPILER_LOADED)
 
-    FILE (GLOB ISA_CXX_FILES "src/arch/${ISA}/*.cpp")
+    FILE (GLOB ISA_CXX_FILES "src/arch/${ISA}/*.cpp"
+                              "src/arch/${ISA}/*.h")
+
     SET  (ISA_CXX_FILES "${ISA_CXX_FILES}" PARENT_SCOPE)
 
     SET  (PLATFORM_LAYOUT ${CMAKE_SOURCE_DIR}/src/arch/${ISA}/layout.ld PARENT_SCOPE)

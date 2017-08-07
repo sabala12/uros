@@ -1,5 +1,5 @@
-#ifndef ERANOS_KERNEL
-#define ERANOS_KERNEL
+#ifndef UROS_KERNEL
+#define UROS_KERNEL
 
 #include <stddef.h>
 #include <stdint.h>
@@ -131,6 +131,18 @@ namespace vga
 		}
 
 		template <class Condition>
+		inline void write(const char* str, Condition& condition)
+		{
+			write_str(str, condition);
+		}
+
+		inline void write(const char* str)
+		{
+			RetTrue retTrue;
+			write_str(str, retTrue);
+		}
+
+		template <class Condition>
 		inline void writeln(const char* str, Condition& condition)
 		{
 			write_str(str, condition);
@@ -144,18 +156,6 @@ namespace vga
             new_line();
     	}
 
-		template <class Condition>
-		inline void write(const char* str, Condition& condition)
-		{
-			write_str(str, condition);
-		}
-
-		inline void write(const char* str)
-		{
-			RetTrue retTrue;
-			write_str(str, retTrue);
-		}
-
     	static void clear_screen()
     	{
     	    for (size_t row = 0; row < m_height; row++)
@@ -165,11 +165,11 @@ namespace vga
     	    m_col = 0;
     	}
 
-    	static void init_buffer()
+    	static void init()
     	{
     	    clear_screen();
 			vga::set_color(vga::Green, vga::Black);
     	}
 }
 
-#endif // ERANOS_KERNEL
+#endif // UROS_KERNEL

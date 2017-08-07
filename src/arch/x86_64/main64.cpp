@@ -4,22 +4,20 @@
 
 #include <utils/fmt.h>
 #include <drivers/vga.h>
-
 #include <arch/x86_64/bootparam.h>
 
-int main(setup_header* mbh)
+extern "C" int main64(setup_header* mbh)
 {
-    size_t a;
-    //asm volatile ("pop %0" : "=r"(a));
+    vga::init();
 
-    (void)mbh;
-    int *d = (int*)0x333333;
+    //setup_header* mbh = (setup_header*)0x0800;
 
-    vga::init_buffer();
+    fmt::print("mbh->setup_sects = %d", mbh->setup_sects);
+    fmt::print("mbh->root_flags = %d", mbh->root_flags);
 
-    fmt::print("mbh = %d", (size_t)mbh);
-    fmt::print("mbh = %d", a);
 
+    //fmt::print("mbh = %d", (size_t)mbh);
+    //fmt::print("mbh = %d", a);
 
     return 0;
 }

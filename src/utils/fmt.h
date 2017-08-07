@@ -105,6 +105,8 @@ namespace fmt
             /* If the % sign didn't describe argument, repeat arg_a. */
             print(fmt + condition.m_count + arg_len, arg_a, arg_n...);
         }
+
+        print("\n");
     }
 }
 

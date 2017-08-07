@@ -1,5 +1,6 @@
 global start
 extern long_mode_start
+extern main32
 
 section .text
 bits 32
@@ -10,15 +11,15 @@ start:
     call check_cpuid
     call check_long_mode
 
-    ;TODO::read e820
+    ; Move Multiboot info pointer to edi
+    ;mov edi, ebx
+    ;call main32
 
     call set_up_page_tables
     call enable_paging
 
     ; load the 64-bit GDT
     lgdt [gdt64.pointer]
-
-    ; push ebx
 
     jmp gdt64.code:long_mode_start
 

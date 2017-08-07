@@ -2,10 +2,15 @@
 <module type="CPP_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src/arch/x86_64/main.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/arch/x86_64/multiboot_header.asm" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/drivers/vga.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/utils/fmt.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/utils/types.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/arch/x86_64/bootparam.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/arch/x86_64/long_mode_init.asm" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/arch/x86_64/main64.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/arch/x86_64/boot.asm" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/arch/x86_64/multiboot_header.asm" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/arch/x86_64/main32.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/cmake/profile_detection.cmake" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/cmake/make_iso.cmake" isTestSource="false" />
