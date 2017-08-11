@@ -95,6 +95,11 @@ namespace vga
     	    m_col = 0;
     	}
 
+		static inline bool is_new_line(const char* str, size_t i)
+		{
+			return str[i] == '\n';
+		}
+
 		static inline void check_shift()
 		{
     	    if (m_col == m_width) 
@@ -123,9 +128,13 @@ namespace vga
 			size_t i = 0;
 			while(str[i] && condition(str, i))
 			{
-				check_shift();
-				write_char(m_row, m_col, str[i]);
-				m_col++;
+				if (is_new_line(str, i)) {
+					new_line();
+				} else {
+					check_shift();
+					write_char(m_row, m_col, str[i]);
+					m_col++;
+				}
 				i++;
 			}
 		}

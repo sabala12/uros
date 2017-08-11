@@ -12,6 +12,7 @@ long_mode_start:
     mov fs, ax
     mov gs, ax
 
+    ; Move Multiboot info pointer to edi
     mov edi, ebx
     call main64
 
