@@ -5,6 +5,7 @@ extern main32
 section .text
 bits 32
 start:
+    ; setup stack pointer
     mov esp, stack_top
 
     call check_multiboot
@@ -70,13 +71,13 @@ check_cpuid:
     jmp error
 
 check_long_mode:
-    ; test if extended processor info in available
+                           ; test if extended processor info in available
     mov eax, 0x80000000    ; implicit argument for cpuid
     cpuid                  ; get highest supported argument
     cmp eax, 0x80000001    ; it needs to be at least 0x80000001
     jb .no_long_mode       ; if it's less, the CPU is too old for long mode
 
-    ; use extended info to test if long mode is available
+                           ; use extended info to test if long mode is available
     mov eax, 0x80000001    ; argument for extended processor info
     cpuid                  ; returns various feature bits in ecx and edx
     test edx, 1 << 29      ; test if the LM-bit is set in the D-register
@@ -159,9 +160,10 @@ stack_top:
 
 section .rodata
 gdt64:
-    dq 0 ; zero entry
-.code: equ $ - gdt64 ; new
-    dq (1<<43) | (1<<44) | (1<<47) | (1<<53) ; code segment
+    dq 0                                                    ; zero entry
+.code: equ $ - gdt64
+    ;   executable     type        present     64-bit seg
+    dq  (1<<43)      | (1<<44)   | (1<<47)   | (1<<53)      ; code segment
 .pointer:
-    dw $ - gdt64 - 1
-    dq gdt64
+    dw $ - gdt64 - 1                                        ; gdt size
+    dq gdt64                                                ; gdt address

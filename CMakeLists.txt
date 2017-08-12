@@ -6,7 +6,7 @@ INCLUDE (CheckCXXCompilerFlag)
 INCLUDE (profile_detection)
 
 # Load architecture specific setting
-LOAD_PROFILE ("x86_64")
+LOAD_PROFILE ("x86")
 
 # Add files to project
 FILE (GLOB LIBC_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}    "src/libc/*.cpp" "src/libc/*.h")

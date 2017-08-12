@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include <arch/x86_64/bootparam.h>
+#include <arch/x86/bootparam.h>
 
 extern "C" int main32(setup_header* mbh)
 {
