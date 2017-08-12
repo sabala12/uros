@@ -23,7 +23,7 @@ include_directories(
 )
 
 # Set comelation flags
-SET (CXX_FLAGS                      "${ISA_CXX_FLAGS} -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c")
+SET (CXX_FLAGS                      "${ISA_CXX_FLAGS} -Wno-error -fpermissive -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c")
 SET (CMAKE_CXX_FLAGS                "${CXX_FLAGS}")
 SET (CMAKE_CXX_FLAGS_DEBUG          "-g -D_DEBUG ${CXX_FLAGS}")
 SET (CMAKE_CXX_FLAGS_MINSIZEREL     "-Os -DNDEBUG ${CXX_FLAGS}")

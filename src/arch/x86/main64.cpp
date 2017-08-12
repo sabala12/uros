@@ -6,16 +6,20 @@
 #include <drivers/vga.h>
 #include <arch/x86/bootparam.h>
 
+extern uint64_t p4_table[];
+extern uint64_t p3_table[];
+extern uint64_t p2_table[];
+
 extern "C" int main64(setup_header* mbh)
 {
     vga::init();
 
+    //TODO::init idt
 
-
-    fmt::print("mbh->ram_size = 0x%d", mbh->ram_size);
-    fmt::print("mbh->syssize = 0x%d", mbh->syssize);
-    fmt::print("mbh->setup_sects = %d", mbh->setup_sects);
-    fmt::print("mbh->root_flags = %d", mbh->root_flags);
+    //TODO::complete gdt
+    //fmt::print("p3_table = 0x%d", (uint64_t)p4_table);
+    //fmt::print("p3_table = 0x%d", (AA)p3_table);
+    //fmt::print("p3_table = 0x%d", (AA)p2_table);
 
     return 0;
 }

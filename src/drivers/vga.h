@@ -68,7 +68,7 @@ namespace vga
     	    m_buffer[index] = vga_entry(c, m_color);
     	}
 
-    	static void clear_row(size_t row)
+	    static void clear_row(size_t row)
     	{
     	    for (size_t col = 0; col < m_width; col++)
     	        write_char(row, col, m_blank);
@@ -112,6 +112,13 @@ namespace vga
    	        }
 		}
 
+		static inline void put_char(const char c)
+		{
+			check_shift();
+			write_char(m_row, m_col, c);
+			m_col++;
+		}
+
 		struct RetTrue
 		{
 			bool operator()(const char* str, size_t i)
@@ -131,12 +138,15 @@ namespace vga
 				if (is_new_line(str, i)) {
 					new_line();
 				} else {
-					check_shift();
-					write_char(m_row, m_col, str[i]);
-					m_col++;
+					put_char(str[i]);
 				}
 				i++;
 			}
+		}
+
+		static void write(const char c)
+		{
+			put_char(c);
 		}
 
 		template <class Condition>
@@ -150,20 +160,6 @@ namespace vga
 			RetTrue retTrue;
 			write_str(str, retTrue);
 		}
-
-		template <class Condition>
-		inline void writeln(const char* str, Condition& condition)
-		{
-			write_str(str, condition);
-            new_line();
-		}
-
-		inline void writeln(const char* str)
-    	{
-			RetTrue retTrue;
-			write_str(str, retTrue);
-            new_line();
-    	}
 
     	static void clear_screen()
     	{

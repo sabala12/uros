@@ -2,6 +2,15 @@ global start
 extern long_mode_start
 extern main32
 
+extern stack_top
+extern p4_table
+extern p2_table
+extern p3_table
+extern p2_table
+
+extern gdt64.pointer
+extern gdt64.code
+
 section .text
 bits 32
 start:
@@ -14,6 +23,7 @@ start:
 
     ; Move Multiboot info pointer to edi
     ;mov edi, ebx
+    ; Initialize things before 64 mode
     ;call main32
 
     call set_up_page_tables
@@ -21,7 +31,7 @@ start:
 
     ; load the 64-bit GDT
     lgdt [gdt64.pointer]
-
+    ; switch to 64 mode
     jmp gdt64.code:long_mode_start
 
     hlt
@@ -145,25 +155,3 @@ error:
     mov dword [0xb8008], 0x4f204f20
     mov byte  [0xb800a], al
     hlt
-
-section .bss
-align 4096
-p4_table:
-    resb 4096
-p3_table:
-    resb 4096
-p2_table:
-    resb 4096
-stack_bottom:
-    resb 4096 * 4
-stack_top:
-
-section .rodata
-gdt64:
-    dq 0                                                    ; zero entry
-.code: equ $ - gdt64
-    ;   executable     type        present     64-bit seg
-    dq  (1<<43)      | (1<<44)   | (1<<47)   | (1<<53)      ; code segment
-.pointer:
-    dw $ - gdt64 - 1                                        ; gdt size
-    dq gdt64                                                ; gdt address
