@@ -17,7 +17,7 @@ extern "C" int main64(setup_header* mbh)
     //TODO::init idt
 
     //TODO::complete gdt
-    //fmt::print("p3_table = 0x%d", (uint64_t)p4_table);
+    fmt::print("p3_table = 0x%d", (uint64_t)p4_table);
     //fmt::print("p3_table = 0x%d", (AA)p3_table);
     //fmt::print("p3_table = 0x%d", (AA)p2_table);
 

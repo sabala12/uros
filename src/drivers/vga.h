@@ -102,7 +102,7 @@ namespace vga
 
 		static inline void check_shift()
 		{
-    	    if (m_col == m_width) 
+			if (m_col == m_width)
 			{
    	           if (m_row == last_line) {
    	                shift_line();

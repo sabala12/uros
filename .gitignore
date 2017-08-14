@@ -3,3 +3,5 @@ target
 .idea/*
 .cmake/*
 .travis.yml
+./src/tags
+./src/cscope.out
