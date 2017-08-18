@@ -1,4 +1,7 @@
 global start
+global enable_paging
+global set_up_page_tables;
+
 extern long_mode_start
 extern main32
 

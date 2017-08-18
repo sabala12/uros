@@ -6,9 +6,14 @@
 #include <drivers/vga.h>
 #include <arch/x86/bootparam.h>
 
-extern uint64_t p4_table[];
-extern uint64_t p3_table[];
-extern uint64_t p2_table[];
+typedef uint64_t PT;
+
+extern PT p4_table[];
+extern PT p3_table[];
+extern PT p2_table[];
+
+extern uint32_t set_up_page_tables;
+extern uint32_t enable_paging;
 
 extern "C" int main64(setup_header* mbh)
 {
@@ -17,9 +22,14 @@ extern "C" int main64(setup_header* mbh)
     //TODO::init idt
 
     //TODO::complete gdt
-    fmt::print("p3_table = 0x%d", (uint64_t)p4_table);
-    //fmt::print("p3_table = 0x%d", (AA)p3_table);
-    //fmt::print("p3_table = 0x%d", (AA)p2_table);
+    fmt::print("set_up_page_tables = 0x%x", set_up_page_tables);
+    fmt::print("p3_table = 0x%x", (PT)p4_table);
+
+    return 0;
+
+
+    fmt::print("p3_table = 0x%x", (PT)p3_table);
+    fmt::print("p3_table = 0x%x", (PT)p2_table);
 
     return 0;
 }
