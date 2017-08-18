@@ -68,7 +68,7 @@ namespace vga
     	    m_buffer[index] = vga_entry(c, m_color);
     	}
 
-	    static void clear_row(size_t row)
+    	static void clear_row(size_t row)
     	{
     	    for (size_t col = 0; col < m_width; col++)
     	        write_char(row, col, m_blank);
