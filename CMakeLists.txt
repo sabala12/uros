@@ -6,7 +6,7 @@ INCLUDE (CheckCXXCompilerFlag)
 INCLUDE (profile_detection)
 
 # Load architecture specific setting
-LOAD_PROFILE ("x86")
+LOAD_PROFILE ("x86_64")
 
 # Add files to project
 FILE (GLOB LIBC_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}    "src/libc/*.cpp" "src/libc/*.h")
@@ -31,8 +31,6 @@ SET (CMAKE_CXX_FLAGS_RELEASE        "-O3 -DNDEBUG ${CXX_FLAGS}")
 SET (CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g ${CXX_FLAGS}")
 SET (CMAKE_ASM_FLAGS                "-felf64")
 SET (CMAKE_LINK_FLAGS               "-n --gc-sections -T ${PLATFORM_LAYOUT}")
-
-set_source_files_properties(main32.cpp PROPERTIES COMPILE_FLAGS -m32)
 
 # Locate toolchain
 SET (CROSS_GCC "/home/eran/Dev/os/compilers/cross-x86_64/bin")

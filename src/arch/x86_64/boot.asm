@@ -24,11 +24,6 @@ start:
     call check_cpuid
     call check_long_mode
 
-    ; Move Multiboot info pointer to edi
-    ;mov edi, ebx
-    ; Initialize things before 64 mode
-    ;call main32
-
     call set_up_page_tables
     call enable_paging
 

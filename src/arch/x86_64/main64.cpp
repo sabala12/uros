@@ -4,7 +4,7 @@
 
 #include <utils/fmt.h>
 #include <drivers/vga.h>
-#include <arch/x86/bootparam.h>
+#include <arch/x86_64/bootparam.h>
 
 typedef uint64_t PT;
 
@@ -24,12 +24,6 @@ extern "C" int main64(setup_header* mbh)
     //TODO::complete gdt
     fmt::print("set_up_page_tables = 0x%x", set_up_page_tables);
     fmt::print("p3_table = 0x%x", (PT)p4_table);
-
-    return 0;
-
-
-    fmt::print("p3_table = 0x%x", (PT)p3_table);
-    fmt::print("p3_table = 0x%x", (PT)p2_table);
 
     return 0;
 }
