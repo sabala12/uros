@@ -4,10 +4,11 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <libc/types.h>
 
 namespace vga
 {
-		static uint16_t* m_buffer = (uint16_t*)0xB8000;
+		static u16* m_buffer = (u16*)0xB8000;
 		static constexpr size_t m_width = 80;
 		static constexpr size_t m_height = 25;
 		static constexpr char m_blank = ' ';	
@@ -33,13 +34,13 @@ namespace vga
     		White      = 15,
     	};
 
-    	static uint8_t m_color;
-    	static size_t m_row;
-    	static size_t m_col;
+    	static u8 m_color;
+    	static u32 m_row;
+    	static u32 m_col;
 
-    	size_t strlen(const char* str) 
+		u32 strlen(const char* str)
     	{
-    	    size_t len = 0;
+			u32 len = 0;
     	    while (str[len])
     	        len++;
 
@@ -51,9 +52,9 @@ namespace vga
     	    m_color = fg | bg << 4;
     	}
 
-    	static inline uint16_t vga_entry(unsigned char uc, uint8_t color) 
+    	static inline u16 vga_entry(unsigned char uc, u8 color)
     	{
-    	    return (uint16_t) uc | (uint16_t) color << 8;
+    	    return (u16) uc | (u16) color << 8;
     	}
 
     	static inline char read_char(size_t row, size_t col)

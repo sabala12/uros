@@ -5,6 +5,8 @@
 #ifndef UROS_PRINT_TYPE_H
 #define UROS_PRINT_TYPE_H
 
+#include <libc/types.h>
+
 namespace fmt
 {
     template<typename T>
@@ -34,10 +36,10 @@ namespace fmt
 
         int len = 0;
         const int max_length = 9;
-        uint8_t str[max_length];
+        u8 str[max_length];
 
         while (val != 0) {
-            uint8_t v = val % 10;
+            u8 v = val % 10;
             str[len] = v;
             len++;
             val /= 10;
@@ -48,7 +50,7 @@ namespace fmt
         }
     }
 
-    inline void print_hex_c(uint8_t val)
+    inline void print_hex_c(u8 val)
     {
         const char map[] = "0123456789abcdef";
         char hex[] = "0";
@@ -59,7 +61,7 @@ namespace fmt
     template <typename T>
     inline void print_hex(T val)
     {
-        uint64_t _val = (uint64_t)val;
+        u64 _val = (u64)val;
         if (_val == 0) {
             vga::write("0");
             return;
@@ -67,7 +69,7 @@ namespace fmt
 
         int len = 0;
         const int max_length = 16;
-        uint8_t str[max_length];
+        u8 str[max_length];
 
         while (_val != 0) {
             str[len] = _val & 0xF;
