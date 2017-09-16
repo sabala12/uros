@@ -5,8 +5,6 @@
 #ifndef UROS_PRINT_TYPE_H
 #define UROS_PRINT_TYPE_H
 
-#include <utils/types.h>
-
 namespace fmt
 {
     template<typename T>
