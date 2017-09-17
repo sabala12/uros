@@ -50,15 +50,21 @@ namespace idt
 
     } selector_t;
 
+    typedef struct ist
+    {
+        u8 offset:3;
+
+    } ist_t;
+
     typedef struct idt_desc
     {
-        u16 offset_1;  // offset bits 0..15
-        selector_t selector;  // a code segment selector in GDT or LDT
-        u8 ist;       // bits 0..2 holds Interrupt Stack Table offset, rest of bits zero.
-        type_attr_t type_attr; // type and attributes
-        u16 offset_2;  // offset bits 16..31
-        u32 offset_3;  // offset bits 32..63
-        u32 zero;      // reserved
+        u16 offset_1;           // offset bits 0..15
+        selector_t selector;    // a code segment selector in GDT or LDT
+        ist_t ist;              // bits 0..2 holds Interrupt Stack Table offset, rest of bits zero.
+        type_attr_t type_attr;  // type and attributes
+        u16 offset_2;           // offset bits 16..31
+        u32 offset_3;           // offset bits 32..63
+        u32 zero;               // reserved
 
     } __attribute__((packed)) idt_desc_t;
 
@@ -103,7 +109,7 @@ namespace idt
     }
 
     /* Initialize an idt descriptor. */
-    void set_idt_desc(idt_desc_t* idt_desc, idt_handler_ptr handler, type_attr_t type_attr, selector_t selector, u8 ist)
+    void set_idt_desc(idt_desc_t* idt_desc, idt_handler_ptr handler, type_attr_t type_attr, selector_t selector, ist_t ist)
     {
         idt_desc->offset_1 = ((u64)handler >> 0)  & 0xFFFF;
         idt_desc->offset_2 = ((u64)handler >> 16) & 0xFFFF;
@@ -118,7 +124,8 @@ namespace idt
         //TODO::Check what is ist(Interrupt stack pointer) is used for in long mode.
         type_attr_t type_attr = create_interrupt_gate_type_attr();
         selector_t selector   = create_interrupt_gate_selector();
-        u8 ist                = 0;
+        ist_t ist;
+        ist.offset = 0;
         idt_desc_t* idt_desc  = &idt[vector];
         set_idt_desc(idt_desc, idt_handler, type_attr, selector, ist);
     }
