@@ -25,9 +25,9 @@
 #define SYSTEM_IDT_LEN  32
 
 /*
- * Interrupt Gate:  Clears IF flag, and restores it on IRET. By this, it ensures the handler won't be interfered by a NMI.
-/* Trap Gate:       Similar to Interrupt Gates, only that it does not touch the IF flag.
-/* Task Gate:       ...
+   Interrupt Gate:  Clears IF flag, and restores it on IRET. By this, it ensures the handler won't be interfered by a NMI.
+   Trap Gate:       Similar to Interrupt Gates, only that it does not touch the IF flag.
+   Task Gate:       ...
  */
 namespace idt
 {
@@ -109,7 +109,7 @@ namespace idt
     }
 
     /* Initialize an idt descriptor. */
-    void set_idt_desc(idt_desc_t* idt_desc, idt_handler_ptr handler, type_attr_t type_attr, selector_t selector, ist_t ist)
+    void init_idt_desc(idt_desc_t* idt_desc, idt_handler_ptr handler, type_attr_t type_attr, selector_t selector, ist_t ist)
     {
         idt_desc->offset_1 = ((u64)handler >> 0)  & 0xFFFF;
         idt_desc->offset_2 = ((u64)handler >> 16) & 0xFFFF;
@@ -119,7 +119,7 @@ namespace idt
         idt_desc->ist = ist;
     }
 
-    void set_system_idt_entry(idt_handler_ptr idt_handler, int vector)
+    void create_system_idt_entry(int vector, idt_handler_ptr idt_handler)
     {
         //TODO::Check what is ist(Interrupt stack pointer) is used for in long mode.
         type_attr_t type_attr = create_interrupt_gate_type_attr();
@@ -127,14 +127,15 @@ namespace idt
         ist_t ist;
         ist.offset = 0;
         idt_desc_t* idt_desc  = &idt[vector];
-        set_idt_desc(idt_desc, idt_handler, type_attr, selector, ist);
+        init_idt_desc(idt_desc, idt_handler, type_attr, selector, ist);
     }
 
+    idt_handler_ptr idt_handlers[SYSTEM_IDT_LEN];
+    
     void setup_idt()
     {
-        for (int i = 0; i < SYSTEM_IDT_LEN; i++)
-        {
-
+        for (int i = 0; i < SYSTEM_IDT_LEN; i++) {
+	    create_system_idt_entry(i, idt_handlers[i]);
         }
     }
 }

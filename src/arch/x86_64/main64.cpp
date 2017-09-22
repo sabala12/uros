@@ -13,11 +13,9 @@ extern "C" int main64(setup_header* mbh)
 
     fmt::print("Address Space: 0x0 -> 0xFFFFFFF");
 
-    idt::setup_idt();
-
+    idt::	setup_idt();
 
     //TODO::complete gdt
-
 
     return 0;
 }

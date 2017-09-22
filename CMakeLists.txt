@@ -23,8 +23,7 @@ include_directories(
 )
 
 # Set comelation flags
-SET (CXX_FLAGS                      "${ISA_CXX_FLAGS} -mno-red-zone -Wno-error -fpermissive -ffreestanding -O2 -Wall -Wextra
-                                                      -fno-exceptions -fno-rtti -c")
+SET (CXX_FLAGS                      "${ISA_CXX_FLAGS} -mno-red-zone -Wno-error -fpermissive -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c")
 SET (CMAKE_CXX_FLAGS                "${CXX_FLAGS}")
 SET (CMAKE_CXX_FLAGS_DEBUG          "-g -D_DEBUG ${CXX_FLAGS}")
 SET (CMAKE_CXX_FLAGS_MINSIZEREL     "-Os -DNDEBUG ${CXX_FLAGS}")
@@ -34,7 +33,7 @@ SET (CMAKE_ASM_FLAGS                "-felf64")
 SET (CMAKE_LINK_FLAGS               "-n --gc-sections -T ${PLATFORM_LAYOUT}")
 
 # Locate toolchain
-SET (CROSS_GCC "/home/eran/Dev/cross/x86_64/bina")
+SET (CROSS_GCC "/home/eran/Dev/cross/x86_64/bin")
 find_program(GCC_AR x86_64-elf-ar               REQUIRED PATHS ${CROSS_GCC})
 find_program(GCC_LD x86_64-elf-ld               REQUIRED PATHS ${CROSS_GCC})
 find_program(GCC_NM x86_64-elf-nm               REQUIRED PATHS ${CROSS_GCC})
