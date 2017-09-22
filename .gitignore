@@ -1,6 +1,7 @@
 build
 target
 .idea/*
+.kdev4/*
 .cmake/*
 .travis.yml
 ./src/tags

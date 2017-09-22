@@ -1,6 +1,8 @@
 global set_up_page_tables
 global enable_paging
 
+global p4_table;
+
 ; Initial page table
 section .bss
 align 4096

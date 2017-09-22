@@ -7,13 +7,15 @@
 #include <arch/x86_64/bootparam.h>
 #include <arch/x86_64/idt.h>
 
+extern u64 p4_table;
+
 extern "C" int main64(setup_header* mbh)
 {
     vga::init();
 
-    fmt::print("Address Space: 0x0 -> 0xFFFFFFF");
+    fmt::print("Address Space: 0x0 -> 0xfffffff");
 
-    idt::	setup_idt();
+    idt::setup_idt();
 
     //TODO::complete gdt
 

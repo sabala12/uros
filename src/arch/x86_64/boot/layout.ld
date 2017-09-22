@@ -13,4 +13,14 @@ SECTIONS {
     {
         *(.text)
     }
+
+    .rodata :
+    {
+	*(.rodate)
+    }
+
+    .bss :
+    {
+	*(.bss)
+    }
 }

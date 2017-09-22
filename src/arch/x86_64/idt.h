@@ -2,6 +2,8 @@
 // Created by eran on 09/09/17.
 //
 
+#include <utils/fmt.h>
+
 #ifndef UROS_IDT_H
 #define UROS_IDT_H
 
@@ -24,6 +26,8 @@
 
 #define SYSTEM_IDT_LEN  32
 
+extern u64 gdt64_code;
+
 /*
    Interrupt Gate:  Clears IF flag, and restores it on IRET. By this, it ensures the handler won't be interfered by a NMI.
    Trap Gate:       Similar to Interrupt Gates, only that it does not touch the IF flag.
@@ -33,19 +37,10 @@ namespace idt
 {
     typedef void(*idt_handler_ptr)(unsigned int vector);
 
-    typedef struct type_attr
-    {
-        u8 gate_type:4;
-        u8 storage_segment:1;
-        u8 dpl:2;
-        u8 present:1;
-
-    } type_attr_t;
-
     typedef struct selector
     {
         u16 dpl:2;
-        u16 table:1;
+        u16 table_type:1;
         u16 offset:13;
 
     } selector_t;
@@ -55,6 +50,15 @@ namespace idt
         u8 offset:3;
 
     } ist_t;
+
+    typedef struct type_attr
+    {
+        u8 gate_type:4;
+        u8 storage_segment:1;
+        u8 dpl:2;
+        u8 present:1;
+
+    } type_attr_t;
 
     typedef struct idt_desc
     {
@@ -71,6 +75,17 @@ namespace idt
     /* Stores all system interrupt handlers. */
     idt_desc_t idt[SYSTEM_IDT_LEN];
 
+    /* Create a gdt selector. */
+    selector_t create_gdt_selector(u8 dpl, u8 table_type, u16 offset)
+    {
+        selector_t selector;
+        selector.dpl = dpl;
+        selector.table_type = table_type;
+        selector.offset = offset;
+
+        return selector;
+    }
+
     /* Create an idt type_attr. */
     type_attr_t create_idt_type_attr(u8 gate_type, u8 storage_segment, u8 dpl, u8 present)
     {
@@ -83,29 +98,25 @@ namespace idt
         return type_attr;
     }
 
-    /* Create an idt selector. */
-    selector_t create_idt_selector(u8 dpl, u8 table, u16 offset)
+    ist_t get_ist_selector()
     {
-        selector_t selector;
-        selector.dpl = dpl;
-        selector.table = dpl;
-        selector.offset = dpl;
-
-        return selector;
-    }
-
-    /* Create a new interrupt gate type attr. */
-    type_attr_t create_interrupt_gate_type_attr()
-    {
-        return create_idt_type_attr(INTERRUPT_GATE_TYPE, NO_STORAGE_SEGMENT, DPL_ZERO, PRESENT_ENTRY);
+	ist_t ist_selector;
+	ist_selector.offset = 0;
+	return ist_selector;
     }
 
     /* Create a new interrupt gate selector. */
-    selector_t create_interrupt_gate_selector()
+    selector_t get_gdt_selector()
     {
         //TODO::Check if the offset is in bytes, or used as an index.
-        //TODO::Check how to import(by extern declaration) inner labels from asm.
-        return create_idt_selector(DPL_ZERO, GDT_SELECTOR, 8);
+	u32 gdt_offset = 0;
+        return create_gdt_selector(DPL_ZERO, GDT_SELECTOR, gdt_offset);
+    }
+
+    /* Create a new interrupt gate type attr. */
+    type_attr_t get_type_attr()
+    {
+        return create_idt_type_attr(INTERRUPT_GATE_TYPE, NO_STORAGE_SEGMENT, DPL_ZERO, PRESENT_ENTRY);
     }
 
     /* Initialize an idt descriptor. */
@@ -121,19 +132,19 @@ namespace idt
 
     void create_system_idt_entry(int vector, idt_handler_ptr idt_handler)
     {
-        //TODO::Check what is ist(Interrupt stack pointer) is used for in long mode.
-        type_attr_t type_attr = create_interrupt_gate_type_attr();
-        selector_t selector   = create_interrupt_gate_selector();
-        ist_t ist;
-        ist.offset = 0;
         idt_desc_t* idt_desc  = &idt[vector];
+
+	selector_t selector   = get_gdt_selector();
+	ist_t ist	      = get_ist_selector();
+	type_attr_t type_attr = get_type_attr();	
         init_idt_desc(idt_desc, idt_handler, type_attr, selector, ist);
     }
 
     idt_handler_ptr idt_handlers[SYSTEM_IDT_LEN];
-    
+
     void setup_idt()
     {
+	fmt::print("idt: 0x%x", gdt64_code);
         for (int i = 0; i < SYSTEM_IDT_LEN; i++) {
 	    create_system_idt_entry(i, idt_handlers[i]);
         }

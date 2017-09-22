@@ -13,8 +13,8 @@ extern p3_table
 extern p2_table
 
 ; gdt
-extern gdt64.pointer
-extern gdt64.code
+extern gdt64_pointer
+extern gdt64_code
 
 ; entry point
 extern long_mode_start
@@ -33,9 +33,9 @@ start:
     call enable_paging
 
     ; load the 64-bit GDT
-    lgdt [gdt64.pointer]
+    lgdt [gdt64_pointer]
     ; switch to 64 mode
-    jmp gdt64.code:long_mode_start
+    jmp gdt64_code:long_mode_start
 
     hlt
 
