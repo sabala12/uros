@@ -6,7 +6,6 @@ set(GRUB_CFG   "set timeout=0 \n
 				multiboot2 /boot/${PROJECT_NAME}.bin \n
 				boot \n }\n")
 
-message(${CMAKE_BINARY_DIR})
 file(WRITE ${CMAKE_BINARY_DIR}/iso/boot/grub/grub.cfg "${GRUB_CFG}")
 
 find_program(MAKE_RESCUE grub-mkrescue REQUIRED)

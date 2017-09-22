@@ -1,6 +1,8 @@
 build
 target
+uros.kdev4
 .idea/*
+.kdev4/*
 .cmake/*
 .travis.yml
 ./src/tags

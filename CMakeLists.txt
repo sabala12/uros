@@ -33,7 +33,7 @@ SET (CMAKE_ASM_FLAGS                "-felf64")
 SET (CMAKE_LINK_FLAGS               "-n --gc-sections -T ${PLATFORM_LAYOUT}")
 
 # Locate toolchain
-SET (CROSS_GCC "/home/eran/Dev/os/compilers/cross-x86_64/bin")
+SET (CROSS_GCC "/home/eran/Dev/cross/x86_64/bin")
 find_program(GCC_AR x86_64-elf-ar               REQUIRED PATHS ${CROSS_GCC})
 find_program(GCC_LD x86_64-elf-ld               REQUIRED PATHS ${CROSS_GCC})
 find_program(GCC_NM x86_64-elf-nm               REQUIRED PATHS ${CROSS_GCC})
