@@ -31,6 +31,7 @@ if [ ! -d "${__dir}/build" ]; then
 fi
 
 cd "${__dir}/build"
+sudo rm -rf ./*
 cmake ..
 make
 
