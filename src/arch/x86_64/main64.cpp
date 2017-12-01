@@ -1,5 +1,5 @@
 #if defined(__linux__)
-//#error "__linux__ is defined, you are not using a cross-compiler."
+#error "__linux__ is defined, you are not using a cross-compiler."
 #endif
 
 #include <utils/fmt.h>
@@ -11,13 +11,13 @@ extern u64 p4_table;
 
 extern "C" int main64(setup_header* mbh)
 {
-    vga::init();
+	(void)mbh;
+	vga::init();
 
-    fmt::print("Address Space: 0x0 -> 0xfffffff");
+	idt_setup_table();
 
-    idt::setup_idt();
+	//TODO::complete gdt
 
-    //TODO::complete gdt
 
-    return 0;
+	return 0;
 }

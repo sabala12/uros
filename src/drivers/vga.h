@@ -1,8 +1,5 @@
-#ifndef UROS_KERNEL
-#define UROS_KERNEL
-
-#include <stddef.h>
-#include <stdint.h>
+#ifndef UROS_VGA_H
+#define UROS_VGA_H
 
 #include <libc/types.h>
 
@@ -37,15 +34,6 @@ namespace vga
     	static u8 m_color;
     	static u32 m_row;
     	static u32 m_col;
-
-		u32 strlen(const char* str)
-    	{
-			u32 len = 0;
-    	    while (str[len])
-    	        len++;
-
-    	    return len;
-    	}
 
     	static inline void set_color(enum Color fg, enum Color bg)
     	{
@@ -94,7 +82,7 @@ namespace vga
     	{
     	    m_row++;
     	    m_col = 0;
-    	}
+	}
 
 		static inline bool is_new_line(const char* str, size_t i)
 		{
@@ -145,11 +133,6 @@ namespace vga
 			}
 		}
 
-		static void write(const char c)
-		{
-			put_char(c);
-		}
-
 		template <class Condition>
 		inline void write(const char* str, Condition& condition)
 		{
@@ -178,4 +161,4 @@ namespace vga
     	}
 }
 
-#endif // UROS_KERNEL
+#endif // UROS_VGA
