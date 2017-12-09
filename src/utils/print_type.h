@@ -25,12 +25,12 @@ namespace fmt
 
         /* Reverse negative values */
         if (val < 0) {
-            vga::write("-");
+            vga_write("-");
             val *= -1;
         }
 
         if (val == 0) {
-            vga::write(map[val]);
+            vga_write(map[val]);
             return;
         }
 
@@ -46,7 +46,7 @@ namespace fmt
         }
 
         for (; len > 0; len--) {
-            vga::write(map[str[len-1]]);
+            vga_write(map[str[len-1]]);
         }
     }
 
@@ -55,7 +55,7 @@ namespace fmt
         const char map[] = "0123456789abcdef";
         char hex[] = "0";
         hex[0] = map[val & 0xF];
-        vga::write(hex);
+        vga_write(hex);
     }
 
     template <typename T>
@@ -63,7 +63,7 @@ namespace fmt
     {
         u64 _val = (u64)val;
         if (_val == 0) {
-            vga::write("0");
+            vga_write("0");
             return;
         }
 

@@ -11,13 +11,12 @@ extern u64 p4_table;
 
 extern "C" int main64(setup_header* mbh)
 {
-	(void)mbh;
-	vga::init();
+	fmt::print("uros kernel boot");
+	fmt::print("ram_size=0x%x", mbh->ram_size);
 
-	idt_setup_table();
+	vga_init();
 
-	//TODO::complete gdt
-
+	idt_init();
 
 	return 0;
 }

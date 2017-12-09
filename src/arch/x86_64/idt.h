@@ -1,7 +1,3 @@
-//
-// Created by eran on 09/09/17.
-//
-
 #ifndef UROS_IDT_H
 #define UROS_IDT_H
 
@@ -57,7 +53,7 @@ typedef struct idt_desc {
         u32		zero;               // reserved
 } __attribute__((packed)) idt_desc_t;
 
-void idt_setup_table();
+void idt_init();
 void idt_assign_handler(idt_handler handler, int entry_num);
 
 #endif //UROS_IDT_H

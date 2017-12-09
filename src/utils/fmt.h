@@ -22,7 +22,7 @@ namespace fmt
 
         /* If no valid sign was found after %, simply print %. */
         if (fmt[0])
-            vga::write("%");
+            vga_write("%");
 
 		return 0;
 	}
@@ -44,16 +44,16 @@ namespace fmt
 
     static inline void print(const char* fmt)
     {
-		vga::write(fmt);
-		vga::write("\n");
+		vga_write(fmt);
+		vga_write("\n");
     }
 
     template <typename A, typename... N>
     static inline void print(const char* fmt, A arg_a, N... arg_n)
     {
         /* Print until you reach the first % sign. */
-		StopAtPercentSign condition;
-        vga::write(fmt, condition);
+	StopAtPercentSign condition;
+        vga_write(fmt, condition);
 
         /* Exit if there are no more characters. */
         if (!condition.m_count)
@@ -62,7 +62,7 @@ namespace fmt
         /* Handle a case were % is the last character */
         if (fmt[condition.m_count - 1] == '%' &&
             !fmt[condition.m_count])
-            vga::write("%");
+            vga_write("%");
 
         /* Print the first argument by the format sign. */
         size_t arg_len = handle_format_sign(fmt + condition.m_count, arg_a);
