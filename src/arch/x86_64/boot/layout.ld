@@ -11,12 +11,16 @@ SECTIONS {
 
     .text :
     {
-        *(.text)
+        *(.text .text.*)
     }
 
     .rodata :
     {
-	*(.rodate)
+	*(.rodata .rodata.*)
+    }
+
+    .data.rel.ro : {
+        *(.data.rel.ro.local*) *(.data.rel.ro .data.rel.ro.*)
     }
 
     .bss :
