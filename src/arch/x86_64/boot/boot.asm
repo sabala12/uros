@@ -25,6 +25,10 @@ start:
     ; setup stack pointer
     mov esp, stack_top_0
 
+    ; Move Multiboot info pointer to edi
+    mov edi, ebx
+
+    call check_multiboot_aligned
     call check_multiboot
     call check_cpuid
     call check_long_mode
@@ -38,6 +42,16 @@ start:
     jmp gdt64_code:long_mode_start
 
     hlt
+
+check_multiboot_aligned:
+    mov ecx, 0x7
+    and ecx, ebx
+    test ebx, ebx
+    je .multiboot_not_aligned
+    ret
+.multiboot_not_aligned:
+    mov al, "0"
+    jmp error
 
 check_multiboot:
     cmp eax, 0x36d76289
