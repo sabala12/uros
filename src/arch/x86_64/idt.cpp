@@ -62,11 +62,7 @@ ist_t idt_ist = {
 } while(0)
 
 
-void test_stub()
-{
-}
-
-//interrupt_stub(fault_handler);
+interrupt_stub(fault_handler);
 
 #define stub_by_vec(func, vec) asm ("push %0; jmp "#func::"i"((char)(vec)));
 
@@ -74,7 +70,7 @@ extern u8 idt_handlers_start[], idt_handlers_stop[];
 void idt_handlers_section()
 {
 	asm volatile("idt_handlers_start:");
-#define CI(i) stub_by_vec(test_stub, i)
+#define CI(i) stub_by_vec(fault_handler, i)
 	CI(0);
 	asm volatile("idt_handlers_stop:");
 #define CI1(x) CI(x);  CI(x+1);
