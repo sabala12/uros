@@ -3,7 +3,9 @@
 
 #include <arch/x86_64/core/stub.h>
 
-void fault_handler()
+#define no_mangling	extern "C"
+
+no_mangling void fault_handler()
 {
 }
 
