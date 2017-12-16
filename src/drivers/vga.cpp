@@ -4,7 +4,7 @@ static u16* m_buffer = (u16*)0xB8000;
 static constexpr size_t m_width = 80;
 static constexpr size_t m_height = 25;
 static constexpr char m_blank = ' ';	
-static constexpr size_t last_line = m_width - 1;
+static constexpr size_t last_line = m_height - 1;
 	
 static u8 m_color;
 static u32 m_row;
@@ -51,32 +51,28 @@ void shift_line()
 
 	clear_row(last_line);
 	m_col = 0;
+	m_row--;
 }
 
-void new_line()
+void vga_new_line()
 {
 	m_row++;
 	m_col = 0;
 }
 
-bool is_new_line(const char* str, size_t i)
-{
-	return str[i] == '\n';
-}
-
 void check_shift()
 {
-	if (m_col == m_width)
-	{
-		if (m_row == last_line) {
-			shift_line();
-		} else {
-			new_line();
-		}
+	if (m_row == last_line) {
+		shift_line();
+		return;
+	}
+
+	if (m_col == m_width) {
+		vga_new_line();
 	}
 }
 
-void put_char(const char c)
+void vga_put_char(const char c)
 {
 	check_shift();
 	write_char(m_row, m_col, c);
@@ -90,6 +86,15 @@ void clear_screen()
 
 	m_row = 0;
 	m_col = 0;
+}
+
+void vga_write_str_handle_char(const char c)
+{
+	if (c == '\n') {
+		vga_new_line();
+	} else {
+		vga_put_char(c);
+	}
 }
 
 void vga_init()

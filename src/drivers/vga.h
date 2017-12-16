@@ -23,55 +23,29 @@ enum vga_color
 	White      = 15,
 };
 
-void set_color(enum vga_color fg, enum vga_color bg);
+void vga_new_line();
+void vga_put_char(const char c);
+void vga_init();
+void vga_write_str_handle_char(const char c);
 
-u16 vga_entry(unsigned char uc, u8 color);
-char read_char(size_t row, size_t col);
-void write_char(size_t row, size_t col, char c);
-void clear_row(size_t row);
-void shift_line();
-void new_line();
-bool is_new_line(const char* str, size_t i);
-void check_shift();
-void put_char(const char c);
-
-struct RetTrue
-{
-	bool operator()(const char* str, size_t i)
-	{
-		(void)str;
-		(void)i;
-		return true;
-	}
-};
 
 template <typename Condition>
-static void write_str(const char* str, Condition& condition)
+static void vga_write_str(const char* str, Condition& condition)
 {
 	size_t i = 0;
-	while(str[i] && condition(str, i))
-	{
-		if (is_new_line(str, i)) {
-			new_line();
-		} else {
-			put_char(str[i]);
-		}
+	while (str[i] && condition(str, i)) {
+		vga_write_str_handle_char(str[i]);
 		i++;
 	}
 }
 
-template <class Condition>
-static void vga_write(const char* str, Condition& condition)
+static void vga_write_str(const char* str)
 {
-	write_str(str, condition);
+	size_t i = 0;
+	while (str[i]) {
+		vga_write_str_handle_char(str[i]);
+		i++;
+	}
 }
-
-static void vga_write(const char* str)
-{
-	RetTrue retTrue;
-	write_str(str, retTrue);
-}
-
-void vga_init();
 
 #endif // UROS_VGA
