@@ -66,6 +66,7 @@ void print_bootloader_info(void* addr)
 				print("");
 				break;
 			case MULTIBOOT_TAG_TYPE_MMAP: {
+				break;
 				struct multiboot_tag_mmap* mmap;
 				bootloader_sect_start(mmap);
 
@@ -93,5 +94,7 @@ extern "C" void main64(multiboot_header_tag* mbt)
 
 	print("********************************** UROS **********************************");
 	print_bootloader_info(mbt);
-	//idt_init();
+
+	idt_init();
+	//__asm__ __volatile__("int $2");
 }

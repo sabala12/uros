@@ -7,7 +7,9 @@ FUNCTION(LOAD_PROFILE ISA)
     endif(CMAKE_ASM_NASM_COMPILER_LOADED)
 
     FILE (GLOB ISA_CXX_FILES "src/arch/${ISA}/*.cpp"
-                              "src/arch/${ISA}/*.h")
+                             "src/arch/${ISA}/*.h"
+			     "src/arch/${ISA}/core/*.cpp"
+			     "src/arch/${ISA}/core/*.h")
 
     SET  (ISA_CXX_FILES "${ISA_CXX_FILES}" PARENT_SCOPE)
 

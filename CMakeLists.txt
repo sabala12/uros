@@ -22,7 +22,7 @@ include_directories(
 )
 
 # Comelation Flags
-SET (CXX_FLAGS                      "${ISA_CXX_FLAGS} -fabi-version=10 -mno-red-zone -Wno-error -fpermissive -Wfatal-errors -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c")
+SET (CXX_FLAGS                      "${ISA_CXX_FLAGS} -mno-red-zone -Wno-error -fpermissive -Wfatal-errors -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c")
 SET (CMAKE_CXX_FLAGS                "${CXX_FLAGS}")
 SET (CMAKE_CXX_FLAGS_DEBUG          "-g -D_DEBUG ${CXX_FLAGS}")
 SET (CMAKE_CXX_FLAGS_MINSIZEREL     "-Os -DNDEBUG ${CXX_FLAGS}")

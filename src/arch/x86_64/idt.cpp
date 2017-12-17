@@ -6,45 +6,71 @@
 #include <arch/x86_64/core/fault.h>
 #include <arch/x86_64/core/stub.h>
 
+#include <utils/fmt.h>
+
 #define SET_BIT(n)		(1ULL << n)
 
 #define BITMASK_1_BYTES		(SET_BIT(8)  - 1)
 #define BITMASK_2_BYTES		(SET_BIT(16) - 1)
 #define BITMASK_4_BYTES		(SET_BIT(32) - 1)
 
+#define gcc_align(n)		__attribute__ ((aligned (n)))
+
 /* An array of pointers to idt handlers. */
-idt_handler idt_handler_arr[IDT_ENTRIES_LEN];
+idt_handler idt_handler_arr[IDT_ENTRIES_LEN] gcc_align(16);
 
 /* The actual interrupt descriptor to be loaded into ***.
- * All descriptors goes to fault_handler(), which then invoke
- * the appropriate vector function handler. */
-idt_desc_t  idt_desc_arr[IDT_ENTRIES_LEN];
+ * All entries point to fault_handler(), which then invoke the appropriate vector handler. */
+idt_desc_t  idt_desc_arr[IDT_ENTRIES_LEN] gcc_align(16);
 
-/****************************************/
+idt_register_t idt_reg;
+
+extern u64 gdt64_code;
+
 /***** Default idt descriptor values ****/
-type_attr_t idt_type_attr = {
+//TODO::gdt64_code has wired value.
+//u16 idt_selector = gdt64_code;
+u16 idt_selector = 0x8;
 
-        .gate_type		= INTERRUPT_GATE_TYPE,
+constexpr ist_t idt_ist = { 
+	.offset = 0, 
+};
+
+constexpr type_attr_t idt_type_attr = {
+
+        .gate_type		= INTERRUPT_GATE,
         .storage_segment	= NO_STORAGE_SEGMENT,
         .dpl			= DPL_ZERO,
         .present		= PRESENT_ENTRY,
 };
 
-selector_t idt_selector = {
-	.dpl			= DPL_ZERO,
-	.table			= GDT_SELECTOR,
-	.offset			= 8,
-};
-
-ist_t idt_ist = {
-	.offset = 0,
-};
-/****************************************/
+/*
+ * 31							   0
+ *  -------------------------------------------------------
+ * |			   reserved			   | 12:15
+ *  -------------------------------------------------------
+ *
+ * 31							   0 
+ *  -------------------------------------------------------
+ * |			   handler 			   |  8:12
+ *  -------------------------------------------------------
+ *
+ * 31		          15     14  13      12    8   3   0 
+ *  -------------------------------------------------------
+ * |	   handler        |present|dpl|storage|type|..0|ist|   4:7
+ *  -------------------------------------------------------
+ *
+ * 31			      16			   0
+ *  -------------------------------------------------------
+ * |	  cs selector	      |         handler 	   |   0:3
+ *  -------------------------------------------------------
+ */
 
 #define idt_set_attr(desc)			do {			\
 	(desc)->type_attr	= idt_type_attr;			\
 	(desc)->selector	= idt_selector;				\
-	(desc)->ist		= idt_ist;				\
+	(desc)->ist		= 0;					\
+	(desc)->ist_pedding	= 0;					\
 } while(0)
 
 #define idt_set_handler(desc, handler)	       do {			\
@@ -62,7 +88,7 @@ ist_t idt_ist = {
 } while(0)
 
 
-interrupt_stub(fault_handler);
+interrupt_stub_2(fault_handler);
 
 #define stub_by_vec(func, vec) asm ("push %0; jmp "#func::"i"((char)(vec)));
 
@@ -86,16 +112,35 @@ void idt_handlers_section()
 
 void idt_assign_handler(idt_handler handler, int entry_num)
 {
+	(void)idt_handlers_section;
 	idt_set_handler(&idt_desc_arr[entry_num], handler);
+}
+
+void idt_load_reg()
+{
+	idt_reg.base = (u64)&idt_desc_arr;
+	idt_reg.limit = IDT_ENTRIES_LEN * sizeof(idt_desc_t) - 1;
+	asm volatile("lidt %0":: "m"(idt_reg));
+}
+
+void open_interrupts()
+{
+	asm volatile("sti"::);
+}
+
+void close_interrupts()
+{
+	asm volatile("cli"::);
 }
 
 void idt_init()
 {
-	(void)idt_handlers_section;
-
 	int i;
 	int handler_size;
 
+	print("gdt64_code = 0x%x", gdt64_code);
+
+	/* Calc the size of idt handler wraper in order to iterate them. */
 	handler_size = int((u64)idt_handlers_start - (u64)idt_handlers_stop);
 	foreach_idt_entry(i, {
 		/* Find the nth handler. */
@@ -105,4 +150,7 @@ void idt_init()
 		idt_set_attr(&idt_desc_arr[i]);
 		idt_set_handler(&idt_desc_arr[i], handler);;
 	});
+
+	idt_load_reg();
+	open_interrupts();
 }

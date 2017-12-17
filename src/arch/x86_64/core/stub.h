@@ -73,5 +73,21 @@
 	"	iretq\n"		\
 	".previous\n")
 
+#define interrupt_stub_2(func)		\
+	void func ## _stub();		\
+	void func() __attribute__((used));\
+	asm (				\
+	".section .text\n" 		\
+	ASM_DECLARE_FUNC(func ## _stub)	\
+					\
+	/* the x86_64 function calling convention uses rdi as a function's first	*/	\
+	/* argument. we copy rsp to rdi and call the interrupt handler (see		*/	\
+	/* gp_fault() or interrupt_func()) whose first argument is a pointer to		*/	\
+	/* "struct regs_t" thus the regs object is actually located on the stack.	*/	\
+	"	mov %rsp,%rdi\n"	\
+	"	call	" #func "\n"	\
+	#func "_iret:\n"	    	\
+	"	iretq\n"		\
+	".previous\n")
 
 #endif // UROS_STUB_H
