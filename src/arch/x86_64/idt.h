@@ -28,12 +28,12 @@
  */
 typedef void(*idt_handler)(unsigned int vector);
 
-typedef struct type_attr {
+typedef struct idt_flags {
 	u8 gate_type:4;
 	u8 storage_segment:1;
 	u8 dpl:2;
 	u8 present:1;
-} gcc_packed type_attr_t;
+} gcc_packed idt_flags_t;
 
 typedef struct selector {
 	u16 offset;
@@ -48,7 +48,7 @@ typedef struct idt_desc {
         u16		selector;		// a code segment selector in GDT or LDT
 	u8		ist:3;			// bits 0..2 holds Interrupt Stack Table offset, rest of bits zero.
 	u8		ist_pedding:5;		
-        type_attr_t	type_attr;		// type and attributes
+        idt_flags_t	flags;			// type and attributes
         u16		offset_2;		// offset bits 16..31
         u32		offset_3;		// offset bits 32..63
         u32		zero;			// reserved
@@ -61,6 +61,8 @@ typedef struct idt_register{
 	u64 base;
 } __attribute__((packed)) idt_register_t;
 
+void open_interrupts();
+void close_interrupts();
 void idt_init();
 void idt_assign_handler(idt_handler handler, int entry_num);
 

@@ -96,5 +96,8 @@ extern "C" void main64(multiboot_header_tag* mbt)
 	print_bootloader_info(mbt);
 
 	idt_init();
-	//__asm__ __volatile__("int $2");
+	/* Test interrupts work */
+	open_interrupts();
+	__asm__ __volatile__("int $2");
+	close_interrupts();
 }

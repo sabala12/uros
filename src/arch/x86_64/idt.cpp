@@ -25,10 +25,10 @@ idt_desc_t  idt_desc_arr[IDT_ENTRIES_LEN] gcc_align(16);
 
 idt_register_t idt_reg;
 
-extern u64 gdt64_code;
-
 /***** Default idt descriptor values ****/
-//TODO::gdt64_code has wired value.
+//TODO:: gdt64_code value is wrong.
+//extern u64 gdt64_code;
+//gdt64_code has wired value.
 //u16 idt_selector = gdt64_code;
 u16 idt_selector = 0x8;
 
@@ -36,7 +36,7 @@ constexpr ist_t idt_ist = {
 	.offset = 0, 
 };
 
-constexpr type_attr_t idt_type_attr = {
+constexpr idt_flags_t idt_flags = {
 
         .gate_type		= INTERRUPT_GATE,
         .storage_segment	= NO_STORAGE_SEGMENT,
@@ -67,10 +67,11 @@ constexpr type_attr_t idt_type_attr = {
  */
 
 #define idt_set_attr(desc)			do {			\
-	(desc)->type_attr	= idt_type_attr;			\
+	(desc)->flags	= idt_flags;					\
 	(desc)->selector	= idt_selector;				\
 	(desc)->ist		= 0;					\
 	(desc)->ist_pedding	= 0;					\
+	(desc)->zero		= 0;					\
 } while(0)
 
 #define idt_set_handler(desc, handler)	       do {			\
@@ -88,15 +89,11 @@ constexpr type_attr_t idt_type_attr = {
 } while(0)
 
 
-interrupt_stub_2(fault_handler);
-
-#define stub_by_vec(func, vec) asm ("push %0; jmp "#func::"i"((char)(vec)));
-
 extern u8 idt_handlers_start[], idt_handlers_stop[];
 void idt_handlers_section()
 {
 	asm volatile("idt_handlers_start:");
-#define CI(i) stub_by_vec(fault_handler, i)
+#define CI(vec) interrupt_stub(vec)
 	CI(0);
 	asm volatile("idt_handlers_stop:");
 #define CI1(x) CI(x);  CI(x+1);
@@ -116,7 +113,7 @@ void idt_assign_handler(idt_handler handler, int entry_num)
 	idt_set_handler(&idt_desc_arr[entry_num], handler);
 }
 
-void idt_load_reg()
+void idt_load_register()
 {
 	idt_reg.base = (u64)&idt_desc_arr;
 	idt_reg.limit = IDT_ENTRIES_LEN * sizeof(idt_desc_t) - 1;
@@ -138,8 +135,6 @@ void idt_init()
 	int i;
 	int handler_size;
 
-	print("gdt64_code = 0x%x", gdt64_code);
-
 	/* Calc the size of idt handler wraper in order to iterate them. */
 	handler_size = int((u64)idt_handlers_start - (u64)idt_handlers_stop);
 	foreach_idt_entry(i, {
@@ -151,6 +146,6 @@ void idt_init()
 		idt_set_handler(&idt_desc_arr[i], handler);;
 	});
 
-	idt_load_reg();
-	open_interrupts();
+	idt_load_register();
+	//open_interrupts();
 }
