@@ -8,11 +8,11 @@
 #include <libc/types.h>
 
 template<typename T>
-inline void print_dec(T val);
+void print_dec(T val);
 template<typename T>
-inline void print_hex(const T* val);
+void print_hex(const T* val);
 template<typename T>
-inline void print_str(const T& val);
+void print_str(const T& val);
 
 template<typename T>
 void print_dec(T val)
@@ -48,6 +48,8 @@ void print_dec(T val)
         }
     }
 
+	// Very wired bug....
+	// Switching the inline with static messes up the prints.
     inline void print_hex_c(u8 val)
     {
         const char map[] = "0123456789abcdef";
