@@ -84,32 +84,19 @@ constexpr idt_flags_t idt_flags = {
 #define foreach_idt_entry(i_, code_)		do {			\
 	i_ = 0;								\
 	for (i_ = 0; i_ < IDT_ENTRIES_LEN; i_++) {			\
-		code_							\
+		code_;							\
 	}								\
 } while(0)
 
-
-extern u8 idt_handlers_start[], idt_handlers_stop[];
-void idt_handlers_section()
-{
-	asm volatile("idt_handlers_start:");
-#define CI(vec) interrupt_stub(vec)
-	CI(0);
-	asm volatile("idt_handlers_stop:");
-#define CI1(x) CI(x);  CI(x+1);
-#define CI2(x) CI1(x); CI1(x+2);
-#define CI3(x) CI2(x); CI2(x+4);
-#define CI4(x) CI3(x); CI3(x+8);
-#define CI5(x) CI4(x); CI4(x+16);
-#define CI6(x) CI5(x); CI5(x+32);
-#define CI7(x) CI6(x); CI6(x+64);
-#define CI8(x) CI7(x); CI7(x+128);
-	CI8(1);
-}
+#define foreach_idt_exception(i_, code_)	do {			\
+	i_ = 0;							\
+	for (i_ = 0; i_ < IDT_EXCEPTIONS_LEN; i_++) {			\
+		code_;							\
+	}								\
+} while(0)
 
 void idt_assign_handler(idt_handler handler, int entry_num)
 {
-	(void)idt_handlers_section;
 	idt_set_handler(&idt_desc_arr[entry_num], handler);
 }
 
@@ -120,32 +107,81 @@ void idt_load_register()
 	asm volatile("lidt %0":: "m"(idt_reg));
 }
 
-void open_interrupts()
+extern u8 idt_long_exceptions_start[], idt_long_exceptions_end[];
+extern u8 idt_short_exceptions_start[], idt_short_exceptions_end[];
+no_mangling void idt_exceptions()
 {
-	asm volatile("sti"::);
+	asm volatile("idt_long_exceptions_start:");
+#define CI(vec) long_exception_stub(vec)
+	CI(0);
+	asm volatile("idt_long_exceptions_end:");
+#define CI1(x) CI(x);  CI(x+1);
+#define CI2(x) CI1(x); CI1(x+2);
+#define CI3(x) CI2(x); CI2(x+4);
+#define CI4(x) CI3(x); CI3(x+8);
+#define CI5(x) CI4(x); CI4(x+16);
+	CI5(1);
+
+	asm volatile("idt_short_exceptions_start:");
+	short_exception_stub(SET_BIT(8));
+	asm volatile("idt_short_exceptions_end:");
+	short_exception_stub(SET_BIT(10));
+	short_exception_stub(SET_BIT(11));
+	short_exception_stub(SET_BIT(12));
+	short_exception_stub(SET_BIT(13));
+	short_exception_stub(SET_BIT(14));
 }
 
-void close_interrupts()
-{
-	asm volatile("cli"::);
-}
+#define idt_calc_handler_size(name)		\
+	((u64)name ## _end - (u64)name ## _start)
 
-void idt_init()
+#define idt_get_handler_i(name, index, size)	\
+	(idt_handler)(name ## _start + (index * size))
+
+/* At vectors: 8, 10, 11, 12, 13, 14, the cpu push an error code on the stack.
+ * For this vector assign a handler without dummy error code push. */
+void idt_modify_special_exceptions()
 {
 	int i;
-	int handler_size;
+	int size;
+	idt_handler handler;
+	const u64 real_error_code_exceptions =  SET_BIT(8) & 
+						SET_BIT(10) &
+						SET_BIT(11) &
+						SET_BIT(12) &
+						SET_BIT(13) &
+						SET_BIT(14);
 
-	/* Calc the size of idt handler wraper in order to iterate them. */
-	handler_size = int((u64)idt_handlers_start - (u64)idt_handlers_stop);
+	size = idt_calc_handler_size(idt_short_exceptions);
+	foreach_idt_exception(i, {
+		if (real_error_code_exceptions & SET_BIT(i)) {
+			/* Assign the short exception handler (i.e no dummy error code push). */
+			handler = idt_get_handler_i(idt_short_exceptions, i, size);
+			idt_set_handler(&idt_desc_arr[i], handler);
+		}
+	});
+}
+
+void idt_load_exceptions()
+{
+	int i;
+	int size;
+	idt_handler handler;
+
+	size = idt_calc_handler_size(idt_long_exceptions);
 	foreach_idt_entry(i, {
-		/* Find the nth handler. */
-		idt_handler handler = (idt_handler)(idt_handlers_start + (i * handler_size));
 
-		/* Init idt entry, */
+		/* Init the nth idt exception entry. */
+		handler = idt_get_handler_i(idt_long_exceptions, i, size);
 		idt_set_attr(&idt_desc_arr[i]);
 		idt_set_handler(&idt_desc_arr[i], handler);;
 	});
 
+	idt_modify_special_exceptions();
+}
+
+void idt_init()
+{
+	idt_load_exceptions();
 	idt_load_register();
-	//open_interrupts();
 }

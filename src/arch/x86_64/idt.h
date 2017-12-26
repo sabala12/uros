@@ -17,9 +17,13 @@
 #define INTERRUPT_GATE		0xE
 #define TRAP_GATEE		0xF
 
+#define IDT_EXCEPTIONS_LEN	32
 #define IDT_ENTRIES_LEN		256
 
 #define gcc_packed		__attribute__ ((packed))
+
+#define enable_interrupts()	asm volatile("sti"::)
+#define disable_interrupts()	asm volatile("cli"::)
 
 /*
    Interrupt Gate:  Clears IF flag, and restores it on IRET. By this, it ensures the handler won't be interfered by a NMI.
@@ -61,8 +65,6 @@ typedef struct idt_register{
 	u64 base;
 } __attribute__((packed)) idt_register_t;
 
-void open_interrupts();
-void close_interrupts();
 void idt_init();
 void idt_assign_handler(idt_handler handler, int entry_num);
 

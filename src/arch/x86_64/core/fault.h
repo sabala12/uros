@@ -6,20 +6,60 @@
 
 #define no_mangling	extern "C"
 
-//"	mov  %%rsp, %%rdi"	"\n"							
-//"	push %0 "		"\n"							
-//"	add  0x8, %%rsp"	"\n"							
-#define interrupt_stub(vec)						\
-	asm (								\
-	".section .text\n"						\
-	"	call fault_handler"	"\n"				\
-	"	iretq\n"						\
-	".previous\n"							\
+struct fault_regs {
+    uint64_t rbp;
+    uint64_t error_no;
+    uint64_t error_code;
+    uint64_t rip;
+    uint64_t rflags;
+    uint64_t cs;
+    uint64_t rsp;
+    uint64_t ss;
+} __attribute__((packed));
+
+/* Generic exception stub.
+ * Handle vector 0 - 31, except for those with real error code. */
+#define long_exception_stub(vec)						\
+	asm (									\
+	".section .text"			"\n"				\
+	"	push $0"			"\n"				\
+	"	push %0"			"\n"				\
+	"	mov %%rsp, %%rdi"		"\n"				\
+	"	call fault_handler"		"\n"				\
+	"	add $16, %%rsp"			"\n"				\
+	"	iretq"				"\n"				\
+	".previous"				"\n"				\
 	::"i"(vec))
 
-no_mangling void fault_handler()
+/* Generic exception stub.
+ * A special case for vector: 8, 10, 11, 12, 13, 14.
+ * The cpu pushes a real error code for these vectors. */
+#define short_exception_stub(vec)						\
+	asm (									\
+	".section .text"			"\n"				\
+	"	push %0"			"\n"				\
+	"	mov %%rsp, %%rdi"		"\n"				\
+	"	call fault_handler"		"\n"				\
+	"	add $8, %%rsp"			"\n"				\
+	"	iretq"				"\n"				\
+	".previous"								\
+	::"i"(vec))
+
+	asm (
+	".section .text\n" 
+	"	common_interrupt_stub:"		"\n"
+	"	mov %rsp, %rdi"			"\n"
+	"	call fault_handler"		"\n"
+	"	add $8, %rsp"			"\n"
+	"	iretq"				"\n"
+	".previous");
+	
+
+no_mangling void fault_handler(struct fault_regs* regs)
 {
-	print("hello from handler");
+	u64 rsp;
+	asm volatile ("mov %%rsp, %0":"=r"(rsp)::);
+	print("hello from handler rsp=0x%x", rsp);
 } 
 
 #endif // UROS_FAULT_H

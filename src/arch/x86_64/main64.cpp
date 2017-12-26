@@ -97,7 +97,12 @@ extern "C" void main64(multiboot_header_tag* mbt)
 
 	idt_init();
 	/* Test interrupts work */
-	open_interrupts();
-	__asm__ __volatile__("int $2");
-	close_interrupts();
+	u64 rsp;
+	asm volatile ("mov %%rsp, %0":"=r"(rsp)::);
+	print("before rsp=0x%x", rsp);
+	__asm__ __volatile__("int $0x4");
+	asm volatile ("mov %%rsp, %0":"=r"(rsp)::);
+	print("before rsp=0x%x", rsp);
+	//enable_interrupts();
+	//disable_interrupts();
 }
