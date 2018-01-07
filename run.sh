@@ -29,4 +29,4 @@ __root="$(cd "$(dirname "${__dir}")" && pwd)" # <-- change this as it depends on
 ${__dir}/compile.sh
 
 cd ${__dir}/build
-qemu-system-x86_64 -cdrom uros.iso
+qemu-system-x86_64 -m 1G,slots=3,maxmem=3G -cdrom uros.iso

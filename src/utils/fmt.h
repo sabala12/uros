@@ -4,79 +4,86 @@
 #include <drivers/vga.h>
 #include <utils/print_type.h>
 
-namespace fmt
+#define fmt_continue 1;
+#define fmt_stop     0;
+
+#define fmt_valid_sign   1;
+#define fmt_invalid_sign 0;
+
+template <typename T>
+bool fmt_handle_format_sign(const char* fmt, T arg)
 {
-	template <typename T>
-	inline size_t handle_format_sign(const char* fmt, T arg)
-	{
-        /* Handle decimal sign */
-        if (fmt[0] == 'd') {
-            print_dec(arg);
-			return 1;
+	switch (fmt[0]) {
+		case 'd': {
+			print_dec(arg);
+			return fmt_valid_sign;
 		}
-
-        if (fmt[0] == 'x') {
-            print_hex(arg);
-            return 1;
-        }
-
-        /* If no valid sign was found after %, simply print %. */
-        if (fmt[0])
-            vga::write("%");
-
-		return 0;
+		case 'x': {
+			print_hex(arg);
+			return fmt_valid_sign;
+		}
+		case 's': {
+			print_str(arg);
+			return fmt_valid_sign;
+		}
 	}
 
-    /* Count number of characters until % sign */
-	struct StopAtPercentSign
+	return fmt_invalid_sign;
+}
+
+struct StopAtPercentSign
+{
+	StopAtPercentSign()
+		: m_count(0), m_found(false) { }
+
+	/* Count number of characters until % sign */
+	/* Check if % sign is at the end of string. */
+	bool operator()(const char* str, size_t i)
 	{
-        StopAtPercentSign()
-			: m_count(0) { }
-
-		inline bool operator()(const char* str, size_t i)
-		{
-			m_count++;
-			return str[i] != '%';
+		m_count++;
+		if (str[i] == '%') {
+			/* A valid sign cannot be at the end of a string. */
+			if (str[i + 1] == '\0') {
+				return fmt_continue;
+			} else {
+				m_found = true;
+				return fmt_stop;
+			}
 		}
+		return fmt_continue;
+	}
 
-		size_t m_count;
-	};
+	size_t m_count;
+	bool   m_found;
+};
 
-    /* Simply copy if there are no arguments. */
-    static inline void print(const char* fmt)
-    {
-		vga::write(fmt);
-    }
+static __attribute__ ((noinline)) void print(const char* fmt)
+{
+	vga_write_str(fmt);
+	vga_write_str("\n");
+}
 
-    template <typename A, typename... N>
-    static inline void print(const char* fmt, A arg_a, N... arg_n)
-    {
-        /* Print until you reach the first % sign. */
-		StopAtPercentSign condition;
-        vga::write(fmt, condition);
+template <typename A, typename... N>
+static __attribute__ ((noinline)) void print(const char* fmt, A arg_a, N... arg_n)
+{
+	/* Print until you reach the first % sign. */
+	StopAtPercentSign condition;
+	vga_write_str(fmt, condition);
 
-        /* Exit if there are no more characters. */
-        if (!condition.m_count)
-            return;
-
-        /* Handle a case were % is the last character */
-        if (fmt[condition.m_count - 1] == '%' &&
-            !fmt[condition.m_count])
-            vga::write("%");
+	/* Exit if there are no more characters. */
+	if (!condition.m_found) {
+		return;
+	}
 
         /* Print the first argument by the format sign. */
-        size_t arg_len = handle_format_sign(fmt + condition.m_count, arg_a);
+	bool ret = fmt_handle_format_sign(fmt + condition.m_count, arg_a);
 
-        if (arg_len) {
-            /* Go to next arg */
-            print(fmt + condition.m_count + arg_len, arg_n...);
-        } else {
-            /* If the % sign didn't describe argument, repeat arg_a. */
-            print(fmt + condition.m_count + arg_len, arg_a, arg_n...);
-        }
-
-        print("\n");
-    }
+        if (ret) {
+		print(fmt + condition.m_count + 1, arg_n...);
+	} else {
+		/* If the % sign didn't describe argument, repeat current arg. */
+		print(fmt + condition.m_count, arg_a, arg_n...);
+	}
 }
 
 #endif // UROS_FMT_H

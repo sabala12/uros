@@ -1,6 +1,10 @@
 build
 target
+<<<<<<< HEAD
 uros.kdev4
+=======
+uros.kdev
+>>>>>>> f4ee743ea8e8e462ef8d2165fe730ca020d689a9
 .idea/*
 .kdev4/*
 .cmake/*
